@@ -1,0 +1,83 @@
+{
+  "application": {
+    "name": "Carlos Okupa",
+    "version": "0.1.0-dev",
+    "status": "LOCAL_DEVELOPMENT_ONLY",
+    "timestamp": "2026-07-21T00:00:00Z"
+  },
+  "models": [
+    {
+      "id": "demucs-htdemucs-v4",
+      "name": "Hybrid Transformer Demucs v4",
+      "path": "resources/models/htdemucs",
+      "version": "v4",
+      "url": "https://github.com/facebookresearch/demucs",
+      "hash_sha256": "TBD_ON_DOWNLOAD",
+      "stems": ["vocals", "drums", "bass", "other"],
+      "code_license": "MIT",
+      "code_license_url": "https://github.com/facebookresearch/demucs/blob/main/LICENSE",
+      "weights_license": "AMBIGUOUS - MUSDB18 HQ TRAINED",
+      "weights_license_note": "⚠️ CRITICAL: Trained on MUSDB18 HQ (non-commercial only). Redistribution not permitted without explicit authorization from MUSDB18 holders.",
+      "commercial_authorized": false,
+      "redistribution_authorized": false,
+      "author": "Meta AI (Facebook Research)",
+      "citation": "Rouard, S., Massa, F., Défossez, A. 'Hybrid Transformers for Music Source Separation'. ICASSP 2023.",
+      "capabilities": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "stems_count": 4
+      },
+      "status": "INCLUDED_FOR_DEVELOPMENT_TESTING_ONLY"
+    }
+  ],
+  "runtime": {
+    "python": {
+      "version": "3.11.x",
+      "source": "https://www.python.org/downloads/",
+      "hash_sha256": "TBD_ON_BUILD",
+      "architectures": ["arm64", "x86_64"],
+      "relocatable": true,
+      "bundled": true
+    },
+    "dependencies": [
+      {
+        "name": "PyTorch",
+        "version": "2.0+",
+        "license": "BSD",
+        "purpose": "Deep learning inference"
+      },
+      {
+        "name": "librosa",
+        "version": "0.10+",
+        "license": "ISC",
+        "purpose": "Audio feature extraction"
+      },
+      {
+        "name": "numpy",
+        "version": "1.24+",
+        "license": "BSD",
+        "purpose": "Numerical computing"
+      },
+      {
+        "name": "scipy",
+        "version": "1.10+",
+        "license": "BSD",
+        "purpose": "Signal processing"
+      }
+    ]
+  },
+  "restrictions": [
+    {
+      "type": "MODEL_WEIGHTS_COMMERCIAL_USE",
+      "description": "Demucs weights trained on MUSDB18 HQ cannot be used commercially without explicit permission.",
+      "mitigation": "Investigate open-license alternatives (e.g., Spleeter, openunmix, or train on CC datasets).",
+      "status": "BLOCKING_FOR_COMMERCIAL_RELEASE"
+    }
+  ],
+  "compliance": {
+    "sbom_required": true,
+    "attribution_required": true,
+    "hash_verification": true,
+    "fail_closed_on_unknown_model": true
+  }
+}
