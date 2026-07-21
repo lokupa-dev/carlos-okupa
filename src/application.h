@@ -1,7 +1,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <QMainWindow>
+#include <QObject>
 #include <memory>
 
 class MainWindow;
@@ -17,10 +17,13 @@ public:
     CarlosOkupaApplication();
     ~CarlosOkupaApplication();
 
-    void initialize();
+    bool initialize();
     void show();
+    void shutdown();
 
 private:
+    void showError(const QString &title, const QString &message);
+
     std::unique_ptr<MainWindow> mainWindow;
     std::unique_ptr<PythonRuntime> pythonRuntime;
     std::unique_ptr<SeparationEngine> separationEngine;

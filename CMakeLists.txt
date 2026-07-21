@@ -23,6 +23,10 @@ find_package(Qt6 COMPONENTS
     REQUIRED
 )
 
+# Find libsndfile for audio file I/O
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SNDFILE sndfile REQUIRED)
+
 # Platform-specific setup
 if(APPLE)
     find_package(AudioToolbox REQUIRED)
@@ -36,31 +40,67 @@ endif()
 set(SOURCES
     src/main.cpp
     src/application.cpp
+    src/application.h
     src/mainwindow.cpp
+    src/mainwindow.h
     src/ui/widgets/fileimport.cpp
+    src/ui/widgets/fileimport.h
     src/ui/widgets/trackselector.cpp
+    src/ui/widgets/trackselector.h
     src/ui/widgets/folderchooser.cpp
+    src/ui/widgets/folderchooser.h
     src/ui/widgets/mixer.cpp
+    src/ui/widgets/mixer.h
     src/ui/widgets/timeline.cpp
+    src/ui/widgets/timeline.h
     src/ui/widgets/progressdialog.cpp
+    src/ui/widgets/progressdialog.h
     src/audio/audioengine.cpp
+    src/audio/audioengine.h
+    src/audio/audiotrack.cpp
+    src/audio/audiotrack.h
     src/audio/audioplayer.cpp
+    src/audio/audioplayer.h
     src/audio/mixerengine.cpp
+    src/audio/mixerengine.h
+    src/audio/realtimemixer.cpp
+    src/audio/realtimemixer.h
+    src/audio/mixercontroller.cpp
+    src/audio/mixercontroller.h
     src/audio/waveformrenderer.cpp
+    src/audio/waveformrenderer.h
+    src/audio/backends/audiobackend.h
     src/processing/separationengine.cpp
+    src/processing/separationengine.h
     src/processing/modelprovenance.cpp
+    src/processing/modelprovenance.h
     src/processing/exportmanager.cpp
+    src/processing/exportmanager.h
+    src/python/pythonprocess.cpp
+    src/python/pythonprocess.h
     src/python/pythonruntime.cpp
+    src/python/pythonruntime.h
+    src/python/demucswrapper.cpp
+    src/python/demucswrapper.h
     src/utils/logger.cpp
+    src/utils/logger.h
     src/utils/filemanager.cpp
+    src/utils/filemanager.h
     src/utils/hashverifier.cpp
+    src/utils/hashverifier.h
 )
 
 # Platform-specific sources
 if(APPLE)
-    list(APPEND SOURCES src/audio/backends/coreaudio_backend.cpp)
+    list(APPEND SOURCES
+        src/audio/backends/coreaudio_backend.cpp
+        src/audio/backends/coreaudio_backend.h
+    )
 elseif(WIN32)
-    list(APPEND SOURCES src/audio/backends/wasapi_backend.cpp)
+    list(APPEND SOURCES
+        src/audio/backends/wasapi_backend.cpp
+        src/audio/backends/wasapi_backend.h
+    )
 endif()
 
 # Create executable
@@ -75,6 +115,7 @@ if(APPLE)
         Qt6::Core Qt6::Gui Qt6::Widgets
         Qt6::Multimedia Qt6::Concurrent Qt6::Network
         AudioToolbox CoreAudio CoreFoundation
+        ${SNDFILE_LIBRARIES}
     )
     
     # macOS app bundle properties
@@ -91,6 +132,7 @@ elseif(WIN32)
         Qt6::Core Qt6::Gui Qt6::Widgets
         Qt6::Multimedia Qt6::Concurrent Qt6::Network
         Winmm.lib Ole32.lib
+        ${SNDFILE_LIBRARIES}
     )
     
     set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -106,6 +148,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/processing
     ${CMAKE_CURRENT_SOURCE_DIR}/src/python
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
+    ${SNDFILE_INCLUDE_DIRS}
 )
 
 # Output directory
@@ -123,8 +166,8 @@ endif()
 # Testing
 enable_testing()
 
-print_status("================================================")
-print_status("Carlos Okupa v${PROJECT_VERSION}")
-print_status("Build type: ${CMAKE_BUILD_TYPE}")
-print_status("Platform: ${CMAKE_SYSTEM_NAME}")
-print_status("================================================")
+message(STATUS "================================================")
+message(STATUS "Carlos Okupa v${PROJECT_VERSION}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Platform: ${CMAKE_SYSTEM_NAME}")
+message(STATUS "================================================")
