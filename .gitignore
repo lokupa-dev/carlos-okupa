@@ -1,0 +1,43 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+.cmake/
+
+# Qt generated
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+*.qm
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Dependencies
+install/
+third_party/install/
+
+# Runtime
+*.pyc
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# Temporary
+*.log
+tmp/
+temp/
+
+# Application data (user-specific)
+Application Support/
+Caches/
+*.plist
+
+# OS
+.DS_Store
+Thumbs.db
